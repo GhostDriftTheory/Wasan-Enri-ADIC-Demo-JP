@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <title>和算 二・〇：円理見立絵図</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- フォント読み込み -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Old+Mincho:wght@400;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+  
+  <style>
+    /* -------------------------------------------
+       江戸の粋（Edo Iki）テーマ変数
+    ------------------------------------------- */
+    :root {
+      --color-paper: #f7f6f0;   /* 生成り色 */
+      --color-ai: #162447;      /* 藍色 */
+      --color-sumi: #2b2b2b;    /* 墨色 */
+      --color-usuzumi: #595959; /* 薄墨 */
+      --color-shu: #c7362a;     /* 朱色 */
+      --color-yamabuki: #d9a62e;/* 山吹色 */
+      --color-uguisu: #5d6b2f;  /* 鶯色 */
+      --color-border: rgba(22, 36, 71, 0.15);
+
+      --font-serif: "Zen Old Mincho", serif;
+      --font-sans: "Zen Kaku Gothic New", sans-serif;
+      --font-mono: "Courier Prime", monospace;
+
+      --paper-texture: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPgo8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjMDAwIiBmaWxsLW9wYWNpdHk9IjAuMDMiLz4KPC9zdmc+');
+    }
+
+    * { box-sizing: border-box; }
+    
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #e0ded5;
+      background-image: var(--paper-texture);
+      color: var(--color-sumi);
+      font-family: var(--font-serif);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start; 
+      line-height: 1.75; 
+      /* スマホでの窮屈さを排除しつつ、余白を持たせる */
+      padding: 10px; 
+    }
+
+    /* -------------------------------------------
+       レイアウト：モバイルファースト・レスポンシブ
+    ------------------------------------------- */
+    .app-container {
+      width: 100%;
+      max-width: 900px;
+      background-color: var(--color-paper);
+      background-image: var(--paper-texture);
+      border: 1px solid #d4d2c9;
+      padding: 20px 16px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: 36px;
+    }
+    
+    /* 上下の飾り線（染め抜き風） */
+    .app-container::before, .app-container::after {
+      content: ""; position: absolute; left: 0; right: 0; height: 4px; background: var(--color-ai);
+    }
+    .app-container::before { top: 0; }
+    .app-container::after { bottom: 0; }
+
+    @media (min-width: 768px) {
+      body { padding: 30px; }
+      .app-container { padding: 48px; gap: 48px; box-shadow: 0 8px 32px rgba(0,0,0,0.08); }
+    }
+
+    section { width: 100%; }
+
+    /* -------------------------------------------
+       デザインパーツ：江戸のタイポグラフィ
+    ------------------------------------------- */
+    .header-row {
+      border-bottom: 2px solid var(--color-border);
+      margin-bottom: 24px;
+      padding-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      flex-wrap: wrap; 
+      gap: 8px;
+    }
+    .tategaki-title {
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: var(--color-ai);
+      border-left: 6px solid var(--color-shu);
+      padding-left: 12px;
+      line-height: 1;
+      letter-spacing: 0.05em;
+    }
+    .header-sub {
+      font-size: 0.75rem;
+      color: var(--color-usuzumi);
+      font-family: var(--font-mono);
+      text-align: right;
+      flex-grow: 1;
+      margin-bottom: 2px;
+    }
+
+    /* ガイド（引札・瓦版風） */
+    .modern-guide {
+      font-family: var(--font-serif);
+      font-size: 0.9rem; 
+      color: var(--color-sumi);
+      background: rgba(255, 255, 255, 0.7);
+      border: 1px solid var(--color-border);
+      border-left: 3px solid var(--color-ai);
+      padding: 16px 18px;
+      margin-bottom: 24px;
+      line-height: 1.9;
+      box-shadow: 2px 2px 6px rgba(0,0,0,0.03);
+      border-radius: 2px;
+    }
+    .modern-guide strong { 
+      color: var(--color-ai); 
+      font-weight: 900; 
+      background: linear-gradient(transparent 70%, rgba(217, 166, 46, 0.25) 70%);
+    }
+    .guide-label {
+      font-size: 0.75rem; color: var(--color-shu); font-weight: 700; display: block; margin-bottom: 6px;
+    }
+
+    .section-label {
+      font-size: 1.05rem; color: var(--color-ai); font-weight: 700;
+      border-bottom: 1px dashed var(--color-border);
+      padding-bottom: 6px; margin-bottom: 20px; display: block;
+    }
+
+    /* 漢数字表示 */
+    .kanji-display {
+      font-size: 2.4rem;
+      line-height: 1; margin: 24px 0;
+      text-align: center; color: var(--color-sumi);
+      font-feature-settings: "palt";
+      transition: color 0.2s;
+      word-break: keep-all; 
+    }
+    @media (min-width: 480px) {
+      .kanji-display { font-size: 3rem; margin: 32px 0; }
+    }
+    
+    /* スライダー（指先操作の最適化） */
+    .soroban-slider {
+      width: 100%; margin: 12px 0 28px 0;
+      -webkit-appearance: none; background: transparent; height: 48px;
+      touch-action: none;
+    }
+    .soroban-slider::-webkit-slider-runnable-track {
+      width: 100%; height: 2px; background: var(--color-usuzumi);
+    }
+    .soroban-slider::-webkit-slider-thumb {
+      -webkit-appearance: none; height: 32px; width: 32px;
+      background: #fff; border: 2px solid var(--color-shu);
+      margin-top: -15px; border-radius: 50%; cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      transition: transform 0.1s;
+    }
+    .soroban-slider:active::-webkit-slider-thumb {
+      transform: scale(1.15); background: var(--color-shu);
+    }
+
+    /* ボタン（焼印・判子風） */
+    .hanko-btn {
+      display: block; width: 100%; padding: 16px;
+      background: #fff; border: 2px solid var(--color-shu);
+      color: var(--color-shu); font-family: var(--font-serif);
+      font-size: 1rem; font-weight: 700; text-align: center; cursor: pointer;
+      transition: all 0.2s; box-shadow: 3px 3px 0 rgba(199, 54, 42, 0.1);
+      border-radius: 3px;
+      -webkit-tap-highlight-color: transparent;
+      text-decoration: none;
+    }
+    .hanko-btn:active { transform: translateY(2px); box-shadow: none; }
+    .hanko-btn.playing {
+      background: #fff8f8; color: var(--color-usuzumi); border-color: var(--color-usuzumi);
+      box-shadow: inset 0 0 4px rgba(0,0,0,0.05); pointer-events: none;
+    }
+
+    /* リンクボタン */
+    .hanko-btn.link-btn {
+      background: linear-gradient(135deg, #fff 0%, #f9f9f7 100%);
+      border: 2px solid var(--color-ai);
+      color: var(--color-ai);
+      box-shadow: 0 4px 12px rgba(22, 36, 71, 0.1);
+      position: relative; overflow: hidden;
+    }
+    .hanko-btn.link-btn::after {
+      content: "↗"; font-size: 1.1rem; margin-left: 8px; vertical-align: middle;
+    }
+    .hanko-btn.link-btn:hover { background: var(--color-ai); color: #fff; }
+
+    /* Fuda (数値表示) - スマホ安全対策 */
+    .fuda-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
+    }
+    .fuda-full { grid-column: span 2; }
+    
+    .fuda {
+      background: #fff; padding: 12px 14px;
+      border-left: 3px solid var(--color-usuzumi);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: flex-start;
+      overflow: hidden; 
+      border-radius: 2px;
+    }
+    @media (min-width: 480px) {
+      .fuda { flex-direction: row; justify-content: space-between; align-items: baseline; }
+    }
+    
+    .fuda-label { font-size: 0.75rem; color: var(--color-usuzumi); font-weight: bold; margin-bottom: 4px; }
+    
+    .fuda-val { 
+      font-family: var(--font-mono); 
+      font-size: 1rem; 
+      color: var(--color-sumi); 
+      letter-spacing: -0.5px; 
+      white-space: nowrap;
+    }
+    
+    .fuda.lower { border-left-color: var(--color-uguisu); }
+    .fuda.upper { border-left-color: var(--color-yamabuki); }
+    .fuda.gap { border-left-color: var(--color-shu); background: #fffcfc; }
+    .gap-val { color: var(--color-shu); }
+    .gap-note { font-size: 0.65rem; color: var(--color-usuzumi); font-weight: normal; margin-left: 0; display: block; margin-top: 2px; }
+    @media (min-width: 480px) { .gap-note { margin-left: 8px; display: inline; margin-top: 0; } }
+
+    /* 不等式バー（Flexbox） */
+    .inequality-bar {
+      margin: 20px 0 8px 0;
+      background: rgba(22, 36, 71, 0.04);
+      padding: 12px;
+      border-radius: 3px;
+      font-family: var(--font-serif);
+      font-weight: 700;
+      font-size: 0.9rem;
+      border: 1px dashed var(--color-border);
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      line-height: 1.4;
+    }
+    .ine-green { color: var(--color-uguisu); white-space: nowrap; }
+    .ine-gold { color: var(--color-yamabuki); white-space: nowrap; }
+    .ine-center { color: var(--color-sumi); white-space: nowrap; }
+
+    /* 参考値表示 */
+    .reference-metrics {
+      text-align: center;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--color-usuzumi);
+      margin-bottom: 12px;
+      opacity: 0.8;
+    }
+
+    /* 見立絵図 */
+    .viz-box {
+      width: 100%; 
+      height: 0; padding-bottom: 90%; 
+      background: #fff;
+      background-image: radial-gradient(#e0ded5 1px, transparent 1px);
+      background-size: 20px 20px;
+      border: 1px solid var(--color-ai);
+      margin-bottom: 12px;
+      position: relative;
+      box-shadow: inset 0 0 20px rgba(0,0,0,0.03);
+    }
+    @media (min-width: 600px) {
+      .viz-box { height: 380px; padding-bottom: 0; }
+    }
+    svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+
+    /* アニメーション */
+    .poly-inner-anim { transform-origin: center; animation: expandInner 0.6s cubic-bezier(0.22, 1, 0.36, 1); }
+    @keyframes expandInner { 0% { transform: scale(0.92); opacity: 0.5; } 100% { transform: scale(1); opacity: 1; } }
+    .poly-outer-anim { transform-origin: center; animation: contractOuter 0.6s cubic-bezier(0.22, 1, 0.36, 1); }
+    @keyframes contractOuter { 0% { transform: scale(1.08); opacity: 0.5; } 100% { transform: scale(1); opacity: 1; } }
+    
+    /* 大福帳エリア */
+    .daifukucho-wrapper { margin-top: 48px; }
+    
+    /* セキュリティ・口上（高札） */
+    .safety-manifesto {
+      background: #fff;
+      border: 2px solid var(--color-ai);
+      padding: 20px 16px; 
+      border-radius: 3px;
+      margin-bottom: -2px; 
+      position: relative;
+      z-index: 2;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+    }
+    @media (min-width: 480px) { .safety-manifesto { padding: 24px; } }
+
+    .safety-manifesto::after, .safety-manifesto::before { 
+      content: "◆"; position: absolute; color: var(--color-ai); font-size: 0.8rem; 
+    }
+    .safety-manifesto::after { top: 8px; right: 8px; }
+    .safety-manifesto::before { bottom: 8px; left: 8px; }
+
+    .safety-title {
+      font-size: 1.05rem; font-weight: 900; margin-bottom: 16px;
+      display: flex; align-items: center; gap: 8px; color: var(--color-ai);
+      border-bottom: 1px solid var(--color-border); padding-bottom: 8px;
+    }
+    .safety-text {
+      font-family: var(--font-serif);
+      font-size: 0.9rem; line-height: 1.9; color: var(--color-sumi);
+    }
+    
+    /* 対比表 */
+    .comparison-box {
+      display: flex; flex-direction: column; gap: 12px; margin-top: 20px; margin-bottom: 20px;
+    }
+    @media (min-width: 480px) {
+      .comparison-box { flex-direction: row; gap: 20px; }
+    }
+    
+    .compare-item {
+      flex: 1; padding: 14px; border-radius: 3px; font-size: 0.85rem; line-height: 1.6;
+      border: 1px solid var(--color-border);
+      font-family: var(--font-serif);
+      position: relative;
+    }
+    .compare-ai { background: #fafafa; }
+    .compare-adic { background: rgba(217, 166, 46, 0.08); border-color: var(--color-yamabuki); }
+    .compare-adic::after {
+      content: "和算ノ心"; position: absolute; top: -9px; right: 8px;
+      background: var(--color-yamabuki); color: #fff;
+      font-size: 0.6rem; padding: 2px 6px; border-radius: 2px;
+    }
+    .compare-label { display: block; font-size: 0.75rem; color: var(--color-usuzumi); margin-bottom: 6px; font-weight: bold; }
+    
+    /* 捏造防止宣言 */
+    .anti-fake-notice {
+      background: var(--color-ai);
+      color: #fff;
+      font-size: 0.85rem;
+      padding: 12px 14px;
+      text-align: center;
+      margin-top: 16px;
+      border-radius: 3px;
+      font-weight: 500;
+      font-family: var(--font-serif);
+      line-height: 1.6;
+    }
+    
+    /* 証明書宣言 */
+    .proof-statement {
+      background: #f4f6f8;
+      color: var(--color-ai);
+      font-size: 0.8rem;
+      padding: 10px 14px;
+      margin-top: 4px;
+      border-left: 3px solid var(--color-yamabuki);
+      font-family: var(--font-serif);
+      line-height: 1.7;
+    }
+
+    /* 大福帳本体 */
+    .daifukucho {
+      background: #fdfdfd; color: var(--color-sumi);
+      padding: 20px 16px;
+      height: 240px; overflow-y: auto;
+      font-family: var(--font-serif); font-size: 0.85rem;
+      border: 2px solid var(--color-ai);
+      border-top: none; 
+      background-image: linear-gradient(transparent 95%, rgba(0,0,0,0.05) 95%);
+      background-size: 100% 3em; line-height: 3em;
+      scroll-behavior: smooth;
+      position: relative;
+    }
+    /* ログ */
+    .log-entry { 
+      margin-bottom: 0; border-bottom: 1px solid rgba(0,0,0,0.1); 
+      padding: 8px 0; display: flex; flex-direction: column;
+    }
+    .log-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+    .log-seal {
+      font-size: 0.65rem; color: var(--color-shu); border: 1px solid var(--color-shu);
+      padding: 1px 6px; border-radius: 2px; font-weight: bold; letter-spacing: 1px;
+      flex-shrink: 0; 
+    }
+    .log-body {
+      font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-usuzumi);
+      background: rgba(0,0,0,0.03); padding: 6px 10px; border-radius: 3px;
+      word-break: break-all;
+    }
+
+    .footer {
+      margin-top: 40px; padding: 24px 16px;
+      background: var(--color-ai); color: #fff;
+      text-align: center; font-size: 0.9rem; font-weight: 500;
+      line-height: 2.0; border-radius: 3px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    }
+    .footer strong { color: var(--color-yamabuki); font-weight: 900; }
+
+    /* 関連リンクエリア */
+    .related-link-area {
+      margin-top: 48px; text-align: center;
+    }
+    .related-title {
+      font-size: 0.95rem; color: var(--color-ai); font-weight: 700; margin-bottom: 16px;
+      display: inline-block; border-bottom: 1px solid var(--color-shu); padding-bottom: 4px;
+    }
+
+  </style>
+</head>
+<body>
+
+<div class="app-container">
+  
+  <!-- 第一幕：導入 -->
+  <section>
+    <div class="header-row">
+      <div class="tategaki-title">円理 改</div>
+      <div class="header-sub">
+        Wasan 2.0<br>Ghost Drift Protocol
+      </div>
+    </div>
+    
+    <div class="modern-guide">
+      <span class="guide-label">【口上】</span>
+      西洋が「無限の証明」を追う中、<br>
+      江戸は<strong>「有限の手順」</strong>を磨けり。<br>
+      円理とは遠回りならず。<br>
+      万人が検算かなう<strong>「透明なる術」</strong>を選びし、和算の矜持なり。
+    </div>
+
+    <!-- 小史ブロック -->
+    <div class="modern-guide" style="margin-top:-10px; border-left-color: var(--color-yamabuki);">
+      <span class="guide-label" style="color:var(--color-yamabuki);">【小史】</span>
+      <strong>関孝和</strong>——独学にて数理の深淵へ至りし江戸の巨人なり。<br>
+      彼が編みし<strong>「円理」</strong>こそ、無限を用いず多角形にて円を挟み撃つ、有限の奥義なり。<br>
+      本機は、その思考をADIC台帳へ刻み、現代OSとして再実装せし試みなり。
+    </div>
+  </section>
+
+  <!-- 第二幕：操作 -->
+  <section>
+    <div class="section-label">壱. 円ヲ刻ム（術ノ実行）</div>
+    
+    <div class="modern-guide" style="border-left-color: var(--color-shu); margin-bottom:12px; font-size:0.85rem;">
+      <span class="guide-label" style="color:var(--color-shu);">【体験】</span>
+      スライダー操作は<strong>「手順」</strong>の追体験なり。<br>
+      真理は空から降らず。<br>
+      多角形を重ねる<strong>「一手」</strong>にのみ宿る。
+    </div>
+
+    <div class="kanji-display">
+      <span id="dispKanji">十二角形</span>
+    </div>
+    
+    <!-- スライダー -->
+    <input type="range" id="inputN" min="6" max="192" step="1" value="12" class="soroban-slider">
+    
+    <!-- 自動演舞ボタン -->
+    <button class="hanko-btn" id="btnDemo">
+      自動演舞（手順の再現）
+    </button>
+  </section>
+
+  <!-- 第三幕：結果と証明 -->
+  <section>
+    <div class="section-label">弐. 挟み込みノ検分</div>
+    
+    <div class="fuda-grid">
+      <div class="fuda lower">
+        <span class="fuda-label">下界（内接）</span>
+        <span id="valLower" class="fuda-val">3.00000000</span>
+      </div>
+      <div class="fuda upper">
+        <span class="fuda-label">上界（外接）</span>
+        <span id="valUpper" class="fuda-val">3.21539031</span>
+      </div>
+      <div class="fuda gap fuda-full">
+        <span class="fuda-label">隙（未確定領域）<span class="gap-note">※千分ノ一未満デ皆伝</span></span>
+        <span id="valGap" class="fuda-val gap-val">0.21539031</span>
+      </div>
+    </div>
+
+    <!-- 不等式バー -->
+    <div class="inequality-bar">
+      <span class="ine-green">【緑】内接（小）</span>
+      <span class="ine-center">≦ 円ノ理 ≦</span>
+      <span class="ine-gold">【金】外接（大）</span>
+    </div>
+
+    <!-- 参考値表示 -->
+    <div class="reference-metrics">
+      参考：現代ノ参照値(π)トノ差 ≒ <span id="valDiff">0.00...</span>
+    </div>
+
+    <div class="viz-box">
+      <svg viewBox="0 0 400 400" id="vizSvg">
+        <!-- 円 (面積 π) -->
+        <circle cx="200" cy="200" r="140" fill="rgba(22, 36, 71, 0.03)" stroke="#ccc" stroke-dasharray="4 4" />
+        
+        <!-- 外接多角形 -->
+        <polygon id="polyOuter" points="" style="fill:rgba(217,166,46,0.15); stroke:#d9a62e; stroke-width:2;" />
+        
+        <!-- 内接多角形 -->
+        <polygon id="polyInner" points="" style="fill:rgba(93,107,47,0.15); stroke:#5d6b2f; stroke-width:2;" />
+        
+        <!-- 中心点 -->
+        <circle cx="200" cy="200" r="3" fill="#2b2b2b" />
+        <text x="390" y="380" text-anchor="end" font-size="12" fill="#aaa" style="writing-mode: tb;">円理図解</text>
+      </svg>
+    </div>
+
+    <!-- ここが心臓部 -->
+    <div class="daifukucho-wrapper">
+      <!-- セキュリティマニフェスト -->
+      <div class="safety-manifesto">
+        <div class="safety-title">
+          <span>❖</span> 参. 算法大福帳【算額ノ精神】
+        </div>
+        <div class="safety-text">
+          <div style="margin-bottom:10px;">
+            難問を解き、神社へ奉納せし<strong>「算額（さんがく）」</strong>。<br>
+            其れは自慢にあらず。「何人も検算せよ」との、<strong>手順（ソースコード）の公開</strong>なり。<br>
+            ADIC（デジタル台帳）もまた現代の算額なり。<br>
+            秘匿を排し、手順を晒すことこそ、最強の証明となる。
+          </div>
+          
+          <div class="comparison-box">
+            <div class="compare-item compare-ai">
+              <span class="compare-label">現代のAI</span>
+              「答えは此れ」と示すのみ。<br>
+              中身は見えず、検証不可。<br>
+              <strong>⇒ 秘伝・暗箱</strong>
+            </div>
+            <div class="compare-item compare-adic">
+              <span class="compare-label">和算・ADIC</span>
+              「此れを行えば、必ずこうなる」<br>
+              誰もが再現できる手順。<br>
+              <strong>⇒ 算額・公開知</strong>
+            </div>
+          </div>
+
+          <!-- 捏造防止宣言 -->
+          <div class="anti-fake-notice">
+            【布告】履歴ヲ順ニ追エバ、AIノ捏造（ハルシネーション）皆無ナル事、何人モ検分叶ウ也。
+          </div>
+          
+          <!-- 証明書宣言 -->
+          <div class="proof-statement">
+            【証】各行ハ「多角形ニヨル挟ミ込ミ」ヲ記セシ有限ログナリ。<br>
+            此ノ列ガ有限ナル限リ、π ニ関スル此ノ範囲ハ、何人モ再検分ニテ真偽ヲ正セル証明書トナル。
+          </div>
+        </div>
+      </div>
+      
+      <!-- 監査ログ -->
+      <div class="daifukucho" id="ledger"></div>
+      
+      <div style="font-size:0.7rem; color:var(--color-usuzumi); margin-top:8px; text-align:right;">
+        ※全行、算額の如く公開されし手順なり。
+      </div>
+    </div>
+  </section>
+
+  <!-- 関連リンク -->
+  <section class="related-link-area">
+    <div class="related-title">【別誂】 和算二・〇ノ系譜</div>
+    <a href="https://ghostdrifttheory.github.io/prime-counter-demo/" target="_blank" class="hanko-btn link-btn">
+      素数計算機・万物ノ数ヲ数エル
+    </a>
+  </section>
+
+  <div class="footer">
+    証明よりも手順を。理論よりも実装を。<br>
+    かつて和算家たちが愛した<strong>「有限の美学」</strong>は、<br>
+    デジタル社会の不透明さを晴らす<strong>「信頼の礎」</strong>とならん。<br>
+    これぞ、日本人が誇るべきアルゴリズムの原風景なり。
+  </div>
+
+</div>
+
+<script>
+  /* * Wasan 2.0 / High-Performance Core + Animation */
+  const RADIUS = 140; 
+  const CENTER = 200;
+  
+  const elInputN = document.getElementById('inputN');
+  const elDispKanji = document.getElementById('dispKanji');
+  const elValLower = document.getElementById('valLower');
+  const elValUpper = document.getElementById('valUpper');
+  const elValGap = document.getElementById('valGap');
+  const elValDiff = document.getElementById('valDiff');
+  const elPolyInner = document.getElementById('polyInner');
+  const elPolyOuter = document.getElementById('polyOuter');
+  const elLedger = document.getElementById('ledger');
+  const btnDemo = document.getElementById('btnDemo');
+
+  const KANJI_NUMS = ["零","壱","弐","参","四","五","六","七","八","九"];
+
+  function toKanji(n) {
+    if(n>=1000) return n;
+    if(n<10) return KANJI_NUMS[n];
+    if(n<100) {
+      let t=Math.floor(n/10), o=n%10, s="";
+      if(t>1) s+=KANJI_NUMS[t]; s+="十";
+      if(o>0) s+=KANJI_NUMS[o];
+      return s;
+    }
+    return n;
+  }
+
+  function calculate(n) {
+    const lower = (n/2) * Math.sin(2 * Math.PI / n);
+    const upper = n * Math.tan(Math.PI / n);
+    const diff = Math.abs(upper - Math.PI); 
+    return { l: lower, u: upper, g: upper - lower, d: diff };
+  }
+
+  function updatePoly(n) {
+    let pi = [], po = [];
+    let rOut = RADIUS / Math.cos(Math.PI/n);
+    for(let i=0; i<n; i++){
+      let th = -Math.PI/2 + (i*2*Math.PI/n);
+      let c = Math.cos(th), s = Math.sin(th);
+      pi.push((CENTER+RADIUS*c).toFixed(1)+","+(CENTER+RADIUS*s).toFixed(1));
+      po.push((CENTER+rOut*c).toFixed(1)+","+(CENTER+rOut*s).toFixed(1));
+    }
+    elPolyInner.setAttribute('points', pi.join(' '));
+    elPolyOuter.setAttribute('points', po.join(' '));
+  }
+
+  function triggerAnimation() {
+    elPolyInner.classList.remove("poly-inner-anim");
+    elPolyOuter.classList.remove("poly-outer-anim");
+    void elPolyInner.offsetWidth; 
+    elPolyInner.classList.add("poly-inner-anim");
+    elPolyOuter.classList.add("poly-outer-anim");
+  }
+
+  function log(n, res, k) {
+    const d = document.createElement('div');
+    d.className = 'log-entry';
+    let status = "奉納";
+    let statusColor = "color:var(--color-shu); border-color:var(--color-shu);";
+    // ユーザー指定の皆伝ライン: GAP < 10^-3
+    if (res.g < 0.001) {
+       status = "皆伝";
+       statusColor = "color:#fff; background:var(--color-shu); border-color:var(--color-shu);";
+    }
+    const txId = Date.now().toString(36).toUpperCase();
+    d.innerHTML = `
+      <div class="log-header">
+        <span style="font-weight:700;">${k}ノ儀</span>
+        <span class="log-seal" style="${statusColor}">【${status}】</span>
+      </div>
+      <div class="log-body">
+        ID:${txId} | GAP:${res.g.toExponential(4)}<br>
+        L:${res.l.toFixed(8)} < π < U:${res.u.toFixed(8)}
+      </div>
+    `;
+    elLedger.appendChild(d);
+    setTimeout(() => { elLedger.scrollTop = elLedger.scrollHeight; }, 10);
+  }
+
+  function updateVisuals(n) {
+    let k = toKanji(n) + "角形";
+    elDispKanji.textContent = k;
+    let r = calculate(n);
+    elValLower.textContent = r.l.toFixed(8);
+    elValUpper.textContent = r.u.toFixed(8);
+    elValGap.textContent = r.g.toFixed(8);
+    elValDiff.textContent = r.d.toExponential(4); 
+    updatePoly(n);
+    return { n, r, k };
+  }
+
+  elInputN.addEventListener('input', () => {
+    let n = parseInt(elInputN.value);
+    updateVisuals(n);
+  });
+
+  elInputN.addEventListener('change', () => {
+    let n = parseInt(elInputN.value);
+    let data = updateVisuals(n);
+    log(data.n, data.r, data.k);
+    triggerAnimation();
+  });
+
+  let demoInterval = null;
+  btnDemo.addEventListener('click', () => {
+    if(demoInterval) return;
+    btnDemo.textContent = "演舞中...（手順の再現）";
+    btnDemo.classList.add("playing");
+    let currentN = 6;
+    const steps = [6, 8, 12, 16, 24, 32, 48, 64, 96]; 
+    let stepIndex = 0;
+    demoInterval = setInterval(() => {
+      if (stepIndex >= steps.length) {
+        clearInterval(demoInterval);
+        demoInterval = null;
+        btnDemo.textContent = "自動演舞（手順の再現）";
+        btnDemo.classList.remove("playing");
+        return;
+      }
+      let n = steps[stepIndex];
+      elInputN.value = n;
+      let data = updateVisuals(n);
+      log(data.n, data.r, data.k);
+      triggerAnimation();
+      stepIndex++;
+    }, 1200);
+  });
+
+  let initData = updateVisuals(12);
+  const iD = document.createElement('div');
+  iD.className = 'log-entry';
+  iD.innerHTML = `
+    <div class="log-header">
+      <span style="font-weight:700;">算額奉納</span>
+      <span class="log-seal">【開始】</span>
+    </div>
+    <div class="log-body">
+      SYSTEM: WASAN-2.0 KERNEL BOOT<br>
+      PROTOCOL: OPEN_PROCEDURE
+    </div>
+  `;
+  elLedger.appendChild(iD);
+
+</script>
+</body>
+</html>
