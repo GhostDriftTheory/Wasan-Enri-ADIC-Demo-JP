@@ -108,29 +108,29 @@
       margin-bottom: 2px;
     }
 
-    /* ガイド（引札風 - 文節崩れ防止対応） */
+    /* ガイド（引札風 - 文節崩れ防止・極） */
     .modern-guide {
       font-family: var(--font-serif);
-      font-size: 0.9rem; /* スマホでも読みやすいサイズ */
+      font-size: 0.9rem; 
       color: var(--color-sumi);
       background: rgba(255, 255, 255, 0.7);
       border: 1px solid var(--color-border);
       border-left: 4px solid var(--color-ai);
-      padding: 16px 14px; /* 横幅確保のためpadding微減 */
+      padding: 18px 14px; /* 左右padding微調整 */
       margin-bottom: 24px;
-      line-height: 1.8;
+      line-height: 1.8; /* 行間調整 */
       box-shadow: 2px 2px 6px rgba(0,0,0,0.03);
       border-radius: 2px;
-      text-align: justify; /* 両端揃えで美しく */
+      text-align: left; 
     }
     .modern-guide strong { 
       color: var(--color-ai); 
       font-weight: 900; 
       background: linear-gradient(transparent 70%, rgba(217, 166, 46, 0.25) 70%);
     }
-    /* 文節キープ用クラス */
+    /* 文節キープ用クラス：これが肝 */
     .bunsetsu {
-      display: inline-block; /* 文節ごとの折り返しを強制 */
+      display: inline-block; 
     }
 
     .guide-label {
@@ -218,22 +218,14 @@
       box-shadow: 0 2px 4px rgba(0,0,0,0.05);
       display: flex; flex-direction: column;
       justify-content: center; align-items: flex-start;
-      overflow: hidden; 
-      border-radius: 2px;
+      overflow: hidden; border-radius: 2px;
     }
     @media (min-width: 480px) {
       .fuda { flex-direction: row; justify-content: space-between; align-items: baseline; }
     }
     
     .fuda-label { font-size: 0.75rem; color: var(--color-usuzumi); font-weight: bold; margin-bottom: 4px; }
-    
-    .fuda-val { 
-      font-family: var(--font-mono); 
-      font-size: 0.9rem; 
-      color: var(--color-sumi); 
-      letter-spacing: -0.5px; 
-      white-space: nowrap;
-    }
+    .fuda-val { font-family: var(--font-mono); font-size: 0.9rem; color: var(--color-sumi); letter-spacing: -0.5px; white-space: nowrap; }
     @media (min-width: 480px) { .fuda-val { font-size: 1rem; } }
     
     .fuda.lower { border-left-color: var(--color-uguisu); }
@@ -251,32 +243,104 @@
       border-radius: 3px;
       font-family: var(--font-serif);
       font-weight: 700;
-      font-size: 0.85rem;
+      font-size: 0.9rem;
       border: 1px dashed var(--color-border);
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 8px;
-      line-height: 1.4;
+      display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; line-height: 1.4;
     }
     .ine-green { color: var(--color-uguisu); white-space: nowrap; }
     .ine-gold { color: var(--color-yamabuki); white-space: nowrap; }
     .ine-center { color: var(--color-sumi); white-space: nowrap; }
 
-    /* 参考値表示 */
+    /* ★ OS比較ボックス */
+    .os-comparison-block {
+      margin-top: 24px;
+      background: #fff;
+      border: 1px solid var(--color-border);
+      border-radius: 4px;
+      padding: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+    }
+    .os-comp-header {
+      font-size: 0.85rem; font-weight: 700; color: var(--color-ai);
+      border-bottom: 1px dashed var(--color-border); padding-bottom: 8px; margin-bottom: 12px;
+      text-align: center; letter-spacing: 1px;
+    }
+    .os-comp-grid {
+      display: grid; grid-template-columns: 1fr 1px 1fr; /* 左右対称 + 中央線 */
+      gap: 0; align-items: stretch;
+    }
+    .os-divider {
+      background: linear-gradient(to bottom, transparent, var(--color-border), transparent);
+      width: 1px; height: 100%;
+    }
+    .os-comp-item {
+      display: flex; flex-direction: column; align-items: center; text-align: center;
+      padding: 0 4px;
+    }
+    .os-comp-title {
+      font-size: 0.8rem; font-weight: 700; margin-bottom: 8px;
+      color: var(--color-ai);
+    }
+    .os-comp-icon {
+      width: 48px; height: 48px; margin-bottom: 8px;
+      display: flex; align-items: center; justify-content: center;
+      position: relative; 
+    }
+    .os-comp-icon svg {
+      width: 100%; height: 100%; position: static; display: block;
+    }
+    /* SVG Icon Styling & Animation */
+    .icon-west circle, .icon-west line { stroke: var(--color-ai); stroke-width: 2; fill: none; stroke-linecap: round; }
+    /* 西洋：流れる点線（無限） */
+    .icon-west .flow-line {
+      stroke-dasharray: 4 4;
+      animation: flowRight 2s linear infinite;
+    }
+    @keyframes flowRight { from { stroke-dashoffset: 8; } to { stroke-dashoffset: 0; } }
+
+    .icon-wasan circle, .icon-wasan line, .icon-wasan path { stroke: var(--color-shu); stroke-width: 2; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+    /* 和算：挟み込み（確定） */
+    .icon-wasan .squeeze-arrow-up {
+      animation: squeezeUp 2s ease-in-out infinite;
+    }
+    .icon-wasan .squeeze-arrow-down {
+      animation: squeezeDown 2s ease-in-out infinite;
+    }
+    .icon-wasan .truth-box {
+      opacity: 0;
+      animation: truthAppear 2s ease-in-out infinite;
+    }
+    @keyframes squeezeUp {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(6px); } /* 接近 */
+    }
+    @keyframes squeezeDown {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); } /* 接近 */
+    }
+    @keyframes truthAppear {
+      0%, 20% { opacity: 0; transform: scale(0.8); }
+      40%, 80% { opacity: 1; transform: scale(1); }
+      100% { opacity: 0; }
+    }
+    
+    .os-comp-desc {
+      font-size: 0.85rem; color: var(--color-sumi); line-height: 1.4;
+      font-weight: 900; margin-bottom: 4px; white-space: nowrap;
+    }
+    .os-comp-sub {
+      font-size: 0.65rem; color: var(--color-usuzumi); white-space: nowrap;
+    }
+
+    /* 参考値 */
     .reference-metrics {
-      text-align: center;
-      font-family: var(--font-mono);
-      font-size: 0.7rem;
-      color: var(--color-usuzumi);
-      margin-bottom: 12px;
-      opacity: 0.8;
+      text-align: center; font-family: var(--font-mono); font-size: 0.7rem; color: var(--color-usuzumi);
+      margin-bottom: 12px; opacity: 0.8;
     }
 
     /* 見立絵図 */
     .viz-box {
-      width: 100%; 
-      height: 0; padding-bottom: 90%; 
+      width: 100%; height: 0; padding-bottom: 90%; 
       background: #fff;
       background-image: radial-gradient(#e0ded5 1px, transparent 1px);
       background-size: 20px 20px;
@@ -285,10 +349,8 @@
       position: relative;
       box-shadow: inset 0 0 20px rgba(0,0,0,0.03);
     }
-    @media (min-width: 600px) {
-      .viz-box { height: 380px; padding-bottom: 0; }
-    }
-    svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+    @media (min-width: 600px) { .viz-box { height: 380px; padding-bottom: 0; } }
+    .viz-box svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
 
     /* アニメーション */
     .poly-inner-anim { transform-origin: center; animation: expandInner 0.6s cubic-bezier(0.22, 1, 0.36, 1); }
@@ -296,22 +358,17 @@
     .poly-outer-anim { transform-origin: center; animation: contractOuter 0.6s cubic-bezier(0.22, 1, 0.36, 1); }
     @keyframes contractOuter { 0% { transform: scale(1.08); opacity: 0.5; } 100% { transform: scale(1); opacity: 1; } }
     
-    /* 大福帳エリア */
+    /* 大福帳 */
     .daifukucho-wrapper { margin-top: 48px; }
     
     /* セキュリティ・口上 */
     .safety-manifesto {
-      background: #fff;
-      border: 2px solid var(--color-ai);
-      padding: 16px; 
-      border-radius: 4px;
-      margin-bottom: -2px; 
-      position: relative;
-      z-index: 2;
+      background: #fff; border: 2px solid var(--color-ai);
+      padding: 20px 16px; border-radius: 4px;
+      margin-bottom: -2px; position: relative; z-index: 2;
       box-shadow: 0 4px 16px rgba(0,0,0,0.06);
     }
     @media (min-width: 480px) { .safety-manifesto { padding: 24px; } }
-
     .safety-manifesto::after, .safety-manifesto::before { 
       content: "◆"; position: absolute; color: var(--color-ai); font-size: 0.8rem; 
     }
@@ -323,24 +380,20 @@
       display: flex; align-items: center; gap: 8px; color: var(--color-ai);
       border-bottom: 1px solid var(--color-border); padding-bottom: 8px;
     }
+    /* 文節キープ */
     .safety-text {
-      font-family: var(--font-serif);
-      font-size: 0.9rem; line-height: 2.0; color: var(--color-sumi);
+      font-family: var(--font-serif); font-size: 0.9rem; line-height: 2.0; color: var(--color-sumi);
     }
     
     /* 対比表 */
     .comparison-box {
       display: flex; flex-direction: column; gap: 12px; margin-top: 20px; margin-bottom: 20px;
     }
-    @media (min-width: 480px) {
-      .comparison-box { flex-direction: row; gap: 20px; }
-    }
+    @media (min-width: 480px) { .comparison-box { flex-direction: row; gap: 20px; } }
     
     .compare-item {
       flex: 1; padding: 14px; border-radius: 3px; font-size: 0.85rem; line-height: 1.6;
-      border: 1px solid var(--color-border);
-      font-family: var(--font-serif);
-      position: relative;
+      border: 1px solid var(--color-border); font-family: var(--font-serif); position: relative;
     }
     .compare-ai { background: #fafafa; }
     .compare-adic { background: rgba(217, 166, 46, 0.08); border-color: var(--color-yamabuki); }
@@ -353,42 +406,28 @@
     
     /* 捏造防止宣言 */
     .anti-fake-notice {
-      background: var(--color-ai);
-      color: #fff;
-      font-size: 0.85rem;
-      padding: 12px 14px;
-      text-align: center;
-      margin-top: 16px;
-      border-radius: 3px;
-      font-weight: 500;
-      font-family: var(--font-serif);
-      line-height: 1.6;
+      background: var(--color-ai); color: #fff; font-size: 0.85rem;
+      padding: 12px 14px; text-align: center; margin-top: 16px;
+      border-radius: 3px; font-weight: 500; font-family: var(--font-serif); line-height: 1.6;
     }
     
     /* 証明書宣言 */
     .proof-statement {
-      background: #f4f6f8;
-      color: var(--color-ai);
-      font-size: 0.8rem;
-      padding: 10px 14px;
-      margin-top: 4px;
+      background: #f4f6f8; color: var(--color-ai); font-size: 0.8rem;
+      padding: 10px 14px; margin-top: 4px;
       border-left: 3px solid var(--color-yamabuki);
-      font-family: var(--font-serif);
-      line-height: 1.7;
+      font-family: var(--font-serif); line-height: 1.7;
     }
 
     /* 大福帳本体 */
     .daifukucho {
       background: #fdfdfd; color: var(--color-sumi);
-      padding: 20px 16px;
-      height: 240px; overflow-y: auto;
+      padding: 20px 16px; height: 240px; overflow-y: auto;
       font-family: var(--font-serif); font-size: 0.85rem;
-      border: 2px solid var(--color-ai);
-      border-top: none; 
+      border: 2px solid var(--color-ai); border-top: none; 
       background-image: linear-gradient(transparent 95%, rgba(0,0,0,0.05) 95%);
       background-size: 100% 3em; line-height: 3em;
-      scroll-behavior: smooth;
-      position: relative;
+      scroll-behavior: smooth; position: relative;
     }
     /* ログ */
     .log-entry { 
@@ -398,8 +437,7 @@
     .log-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
     .log-seal {
       font-size: 0.65rem; color: var(--color-shu); border: 1px solid var(--color-shu);
-      padding: 1px 6px; border-radius: 2px; font-weight: bold; letter-spacing: 1px;
-      flex-shrink: 0; 
+      padding: 1px 6px; border-radius: 2px; font-weight: bold; letter-spacing: 1px; flex-shrink: 0; 
     }
     .log-body {
       font-family: var(--font-mono); font-size: 0.75rem; color: var(--color-usuzumi);
@@ -407,7 +445,7 @@
       word-break: break-all;
     }
 
-    /* Footer Optimized for Mobile */
+    /* Footer */
     .footer {
       margin-top: 40px; padding: 24px 16px;
       background: var(--color-ai); color: #fff;
@@ -417,10 +455,8 @@
     }
     .footer strong { color: var(--color-yamabuki); font-weight: 900; }
 
-    /* 関連リンクエリア */
-    .related-link-area {
-      margin-top: 48px; text-align: center;
-    }
+    /* Related Link */
+    .related-link-area { margin-top: 48px; text-align: center; }
     .related-title {
       font-size: 0.95rem; color: var(--color-ai); font-weight: 700; margin-bottom: 16px;
       display: inline-block; border-bottom: 1px solid var(--color-shu); padding-bottom: 4px;
@@ -443,19 +479,65 @@
     
     <div class="modern-guide">
       <span class="guide-label">【口上】</span>
-      <span class="bunsetsu">西洋ガ「無限ノ証明」ヲ追ウ中、</span>
-      <span class="bunsetsu">江戸ハ<strong>「有限ノ手順」</strong>ヲ極メリ。</span><br>
-      <span class="bunsetsu">円理トハ遠回リニ非ズ。</span>
-      <span class="bunsetsu">万人ガ検算叶フ<strong>「透明ナル術」</strong>ヲ選ビシ、</span>
+      <span class="bunsetsu">西洋ガ「無限ノ証明」ヲ</span><span class="bunsetsu">追ウ中、</span>
+      <span class="bunsetsu">江戸ハ<strong>「有限ノ手順」</strong>ヲ</span><span class="bunsetsu">極メリ。</span><br>
+      <span class="bunsetsu">円理トハ</span><span class="bunsetsu">遠回リニ非ズ。</span>
+      <span class="bunsetsu">万人ガ検算叶フ</span><span class="bunsetsu"><strong>「透明ナル術」</strong>ヲ選ビシ、</span>
       <span class="bunsetsu">和算ノ矜持ナリ。</span>
     </div>
 
     <!-- 小史ブロック -->
     <div class="modern-guide" style="margin-top:-10px; border-left-color: var(--color-yamabuki);">
       <span class="guide-label" style="color:var(--color-yamabuki);">【小史】</span>
-      <span class="bunsetsu"><strong>関孝和</strong>——</span><span class="bunsetsu">独学ニテ数理ノ深淵ヘ至リシ江戸ノ巨人。</span><br>
-      <span class="bunsetsu">彼ガ編ミシ<strong>「円理」</strong>コソ、</span><span class="bunsetsu">無限ヲ用イズ、</span><span class="bunsetsu">多角形ニテ円ヲ挟ミ撃ツ有限ノ奥義ナリ。</span><br>
-      <span class="bunsetsu">本機ハ、ソノ思考ヲADIC台帳ヘ刻ミ、</span><span class="bunsetsu">現代OSトシテ再実装セシモノ也。</span>
+      <span class="bunsetsu"><strong>関孝和</strong>——</span><span class="bunsetsu">独学ニテ</span><span class="bunsetsu">数理ノ深淵ヘ至リシ</span><span class="bunsetsu">江戸ノ巨人。</span><br>
+      <span class="bunsetsu">彼ガ編ミシ<strong>「円理」</strong>コソ、</span><span class="bunsetsu">無限ヲ用イズ、</span><span class="bunsetsu">多角形ニテ</span><span class="bunsetsu">円ヲ挟ミ撃ツ</span><span class="bunsetsu">有限ノ奥義ナリ。</span><br>
+      <span class="bunsetsu">本機ハ、</span><span class="bunsetsu">ソノ思考ヲ</span><span class="bunsetsu">ADIC台帳ヘ刻ミ、</span><span class="bunsetsu">現代OSトシテ</span><span class="bunsetsu">再実装セシモノ也。</span><br>
+      <br>
+      <div class="os-comparison-block">
+        <div class="os-comp-header">【比較】西洋 ト 和算 ノ流儀</div>
+        <div class="os-comp-grid">
+          <!-- 西洋：流れる矢印 -->
+          <div class="os-comp-item">
+            <span class="os-comp-title">西洋：極限</span>
+            <div class="os-comp-icon icon-west">
+              <svg viewBox="0 0 48 48">
+                <!-- 常に右へ流れる点線 -->
+                <line x1="0" y1="24" x2="48" y2="24" stroke-width="3" class="flow-line" />
+                <!-- 矢印の頭 -->
+                <path d="M40 20 L46 24 L40 28" stroke="currentColor" stroke-width="2" fill="none" />
+              </svg>
+            </div>
+            <div class="os-comp-desc">真理ハ「彼方」</div>
+            <div class="os-comp-sub">（無限ニ託ス）</div>
+          </div>
+          
+          <!-- 中央線 -->
+          <div class="os-divider"></div>
+          
+          <!-- 和算：挟み込んで確定 -->
+          <div class="os-comp-item">
+            <span class="os-comp-title" style="color:var(--color-shu);">和算：閾値</span>
+            <div class="os-comp-icon icon-wasan">
+              <svg viewBox="0 0 48 48">
+                <!-- 上から迫る矢印 -->
+                <path d="M24 6 L24 18" class="squeeze-arrow-up" stroke-width="3" />
+                <path d="M20 14 L24 18 L28 14" class="squeeze-arrow-up" stroke-width="2" />
+                
+                <!-- 下から迫る矢印 -->
+                <path d="M24 42 L24 30" class="squeeze-arrow-down" stroke-width="3" />
+                <path d="M20 34 L24 30 L28 34" class="squeeze-arrow-down" stroke-width="2" />
+                
+                <!-- 真ん中の四角（真理）：点滅して現れる -->
+                <rect x="18" y="21" width="12" height="6" fill="currentColor" stroke="none" class="truth-box" />
+              </svg>
+            </div>
+            <div class="os-comp-desc" style="color:var(--color-shu);">真理ハ「此処」</div>
+            <div class="os-comp-sub">（檻ニ捉エル）</div>
+          </div>
+        </div>
+      </div>
+      <br>
+      <span class="bunsetsu">円ノ理ニ於テモ、</span><span class="bunsetsu">西洋ハ π ニ近ヅク「線」ヲ描キ、</span><span class="bunsetsu">和算ハ π ヲ挟ミ込ム「檻」ヲ設ク。</span>
     </div>
   </section>
 
@@ -465,9 +547,13 @@
     
     <div class="modern-guide" style="border-left-color: var(--color-shu); margin-bottom:12px; font-size:0.85rem;">
       <span class="guide-label" style="color:var(--color-shu);">【体験】</span>
-      <span class="bunsetsu">盤ヲ操ルハ<strong>「手順」</strong>ノ追体験ナリ。</span><br>
-      <span class="bunsetsu">真理ハ天ヨリ降ラズ。</span>
-      <span class="bunsetsu">多角形ヲ重ネル<strong>「一手」</strong>ニノミ宿ル。</span>
+      <span class="bunsetsu">盤ヲ操ルハ</span><span class="bunsetsu"><strong>「手順」</strong>ノ追体験ナリ。</span><br>
+      <span class="bunsetsu">真理ハ</span><span class="bunsetsu">天ヨリ降ラズ。</span>
+      <span class="bunsetsu">多角形ヲ重ネル</span><span class="bunsetsu"><strong>「一手」</strong>ニノミ宿ル。</span><br>
+      <br>
+      <span class="bunsetsu">即チ和算ノ円理ハ、</span>
+      <span class="bunsetsu">「有限ノ段階ニテ</span><span class="bunsetsu">確定セシ領域コソ真理」ト定メル、</span>
+      <span class="bunsetsu"><strong>閾値（シキイチ）ヲ礎トスル</strong></span><span class="bunsetsu"><strong>OS</strong>ナリ。</span>
     </div>
 
     <div class="kanji-display">
@@ -535,43 +621,42 @@
 
     <!-- ここが心臓部 -->
     <div class="daifukucho-wrapper">
-      <!-- セキュリティマニフェスト -->
+      <!-- セキュリティマニフェスト（世界モデル宣言） -->
       <div class="safety-manifesto">
         <div class="safety-title">
-          <span>❖</span> 参. 算法大福帳【算額ノ精神】
+          <span>❖</span> 参. 世界模型（ワールドモデル）ノ相違
         </div>
         <div class="safety-text">
           <div style="margin-bottom:10px;">
-            <span class="bunsetsu">難問ヲ解キ、神社ヘ奉納セシ<strong>「算額（サンガク）」</strong>。</span><br>
-            <span class="bunsetsu">其レハ自慢ニアラズ。「何人モ検算セヨ」トノ、<strong>手順（ソースコード）ノ公開</strong>ナリ。</span><br>
-            <span class="bunsetsu">ADIC（デジタル台帳）モ亦タ、現代ノ算額ナリ。</span>
-            <span class="bunsetsu">秘匿ヲ排シ、手順ヲ晒スコトコソ、最強ノ証明トナル。</span>
+            <span class="bunsetsu">何故、和算ガ</span><span class="bunsetsu">現代ニテ必要ナノカ？</span><br>
+            <span class="bunsetsu">西洋ノ閾値ハ、</span><span class="bunsetsu">無限ヲ信ズ故ノ</span><span class="bunsetsu">「妥協」ナリ。</span><br>
+            <span class="bunsetsu">和算ノ閾値ハ、</span><span class="bunsetsu">有限ヲ世界ト定ムル</span><span class="bunsetsu"><strong>「定義」</strong>ナリ。</span>
           </div>
           
           <div class="comparison-box">
             <div class="compare-item compare-ai">
-              <span class="compare-label">現代ノ人工知能</span>
-              「答エハ此レ」ト示スノミ。<br>
-              中身ハ見エズ、検証不可。<br>
-              <strong>⇒ 秘伝・暗箱</strong>
+              <span class="compare-label">西洋モデル（無限）</span>
+              <span class="bunsetsu">「答エハ無限ノ彼方ニ」</span><br>
+              <span class="bunsetsu">未ダ真理ハ手元ニ無シ。</span><br>
+              <strong>⇒ 故ニ、外レレバ虚</strong>
             </div>
             <div class="compare-item compare-adic">
-              <span class="compare-label">和算・ADIC</span>
-              「此レヲ行エバ、必ズ斯ク成ル」<br>
-              誰モガ再現叶フ手順。<br>
-              <strong>⇒ 算額・公開知</strong>
+              <span class="compare-label">和算モデル（有限）</span>
+              <span class="bunsetsu">「真理ハ此ノ檻ニ在リ」</span><br>
+              <span class="bunsetsu">今ココニ確定ス。</span><br>
+              <strong>⇒ 故ニ、絶対ノ保証</strong>
             </div>
           </div>
 
           <!-- 捏造防止宣言 -->
           <div class="anti-fake-notice">
-            <span class="bunsetsu">【布告】履歴ヲ順ニ追エバ、</span><span class="bunsetsu">AIガ数字ヲ捏造（ハルシネーション）セヌ事、</span><span class="bunsetsu">何人モ検分叶フ也。</span>
+            <span class="bunsetsu">【布告】AIノ暴走（無限ノ不確定性）ヲ</span><span class="bunsetsu">止メルニハ、</span><span class="bunsetsu">此ノ<strong>「有限世界モデル」</strong>ガ</span><span class="bunsetsu">不可欠ナリ。</span>
           </div>
           
           <!-- 証明書宣言 -->
           <div class="proof-statement">
-            <span class="bunsetsu">【証】各行ハ「多角形ニヨル挟ミ込ミ」ヲ記セシ有限ログナリ。</span><br>
-            <span class="bunsetsu">此ノ列ガ有限ナル限リ、</span><span class="bunsetsu">π ニ関スル此ノ範囲ハ、</span><span class="bunsetsu">何人モ再検分ニテ真偽ヲ正セル証明書トナル。</span>
+            <span class="bunsetsu">【証】各行ハ</span><span class="bunsetsu">「世界ヲ有限ニ閉ジル」</span><span class="bunsetsu">手続キノ記録ナリ。</span><br>
+            <span class="bunsetsu">此ノ台帳コソガ、</span><span class="bunsetsu">デジタル社会ノ安寧ヲ守ル</span><span class="bunsetsu">最強ノ証明書トナル。</span>
           </div>
         </div>
       </div>
@@ -580,7 +665,7 @@
       <div class="daifukucho" id="ledger"></div>
       
       <div style="font-size:0.7rem; color:var(--color-usuzumi); margin-top:8px; text-align:right;">
-        ※全行、算額ノ如ク公開サレシ手順ナリ。
+        ※全行、世界モデルヲ確定セシ手順ナリ。
       </div>
     </div>
   </section>
@@ -595,9 +680,9 @@
 
   <div class="footer">
     <span class="bunsetsu">証明ヨリモ手順ヲ。</span><span class="bunsetsu">理論ヨリモ実装ヲ。</span><br>
-    <span class="bunsetsu">カツテ和算家達ガ愛シタ<strong>「有限ノ美学」</strong>ハ、</span><br>
-    <span class="bunsetsu">デジタル社会ノ不透明サヲ晴ラス<strong>「信頼ノ礎（イシズエ）」</strong>ト成ラン。</span><br>
-    <span class="bunsetsu">此レゾ、日本人ガ誇ルベキ算法ノ原風景ナリ。</span>
+    <span class="bunsetsu">カツテ和算家達ガ愛シタ</span><span class="bunsetsu"><strong>「有限ノ美学」</strong>ハ、</span><br>
+    <span class="bunsetsu">デジタル社会ノ不透明サヲ晴ラス</span><span class="bunsetsu"><strong>「信頼ノ礎（イシズエ）」</strong>ト成ラン。</span><br>
+    <span class="bunsetsu">此レゾ、日本人ガ誇ルベキ</span><span class="bunsetsu">算法ノ原風景ナリ。</span>
   </div>
 
 </div>
