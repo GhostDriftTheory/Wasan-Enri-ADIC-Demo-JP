@@ -56,7 +56,6 @@
       background-color: var(--color-paper);
       background-image: var(--paper-texture);
       border: 1px solid #d4d2c9;
-      /* スマホの狭い画面でも余白を確保しつつコンテンツを圧迫しない */
       padding: 20px 12px;
       box-shadow: 0 4px 24px rgba(0,0,0,0.06);
       position: relative;
@@ -96,7 +95,7 @@
       font-weight: 900;
       color: var(--color-ai);
       border-left: 6px solid var(--color-shu);
-      padding-left: 12px;
+      padding-left: 10px;
       line-height: 1;
       letter-spacing: 0.05em;
     }
@@ -109,25 +108,31 @@
       margin-bottom: 2px;
     }
 
-    /* ガイド（引札風 - スマホ可読性重視） */
+    /* ガイド（引札風 - 文節崩れ防止対応） */
     .modern-guide {
       font-family: var(--font-serif);
-      font-size: 0.95rem; 
+      font-size: 0.9rem; /* スマホでも読みやすいサイズ */
       color: var(--color-sumi);
       background: rgba(255, 255, 255, 0.7);
       border: 1px solid var(--color-border);
       border-left: 4px solid var(--color-ai);
-      padding: 18px 20px;
+      padding: 16px 14px; /* 横幅確保のためpadding微減 */
       margin-bottom: 24px;
-      line-height: 2.0; /* ゆったり */
+      line-height: 1.8;
       box-shadow: 2px 2px 6px rgba(0,0,0,0.03);
       border-radius: 2px;
+      text-align: justify; /* 両端揃えで美しく */
     }
     .modern-guide strong { 
       color: var(--color-ai); 
       font-weight: 900; 
       background: linear-gradient(transparent 70%, rgba(217, 166, 46, 0.25) 70%);
     }
+    /* 文節キープ用クラス */
+    .bunsetsu {
+      display: inline-block; /* 文節ごとの折り返しを強制 */
+    }
+
     .guide-label {
       font-size: 0.75rem; color: var(--color-shu); font-weight: 700; display: block; margin-bottom: 8px;
     }
@@ -154,15 +159,14 @@
     /* スライダー（指先操作の最適化） */
     .soroban-slider {
       width: 100%; margin: 12px 0 28px 0;
-      -webkit-appearance: none; background: transparent; height: 48px; /* タッチ領域大 */
+      -webkit-appearance: none; background: transparent; height: 48px;
       touch-action: none;
     }
     .soroban-slider::-webkit-slider-runnable-track {
       width: 100%; height: 2px; background: var(--color-usuzumi);
     }
     .soroban-slider::-webkit-slider-thumb {
-      -webkit-appearance: none; 
-      height: 34px; width: 34px; /* 指で隠れないサイズ */
+      -webkit-appearance: none; height: 34px; width: 34px;
       background: #fff; border: 2px solid var(--color-shu);
       margin-top: -16px; border-radius: 50%; cursor: pointer;
       box-shadow: 0 2px 6px rgba(0,0,0,0.2);
@@ -202,14 +206,14 @@
     }
     .hanko-btn.link-btn:hover { background: var(--color-ai); color: #fff; }
 
-    /* Fuda (数値表示) - スマホ安全対策 */
+    /* Fuda (数値表示) */
     .fuda-grid {
       display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
     }
     .fuda-full { grid-column: span 2; }
     
     .fuda {
-      background: #fff; padding: 12px 14px;
+      background: #fff; padding: 10px 12px;
       border-left: 3px solid var(--color-usuzumi);
       box-shadow: 0 2px 4px rgba(0,0,0,0.05);
       display: flex; flex-direction: column;
@@ -223,10 +227,9 @@
     
     .fuda-label { font-size: 0.75rem; color: var(--color-usuzumi); font-weight: bold; margin-bottom: 4px; }
     
-    /* モバイルでの桁数オーバーを防ぐフォント調整 */
     .fuda-val { 
       font-family: var(--font-mono); 
-      font-size: 0.9rem; /* 1rem -> 0.9rem に微調整して安全確保 */
+      font-size: 0.9rem; 
       color: var(--color-sumi); 
       letter-spacing: -0.5px; 
       white-space: nowrap;
@@ -248,7 +251,7 @@
       border-radius: 3px;
       font-family: var(--font-serif);
       font-weight: 700;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       border: 1px dashed var(--color-border);
       display: flex;
       justify-content: center;
@@ -300,8 +303,8 @@
     .safety-manifesto {
       background: #fff;
       border: 2px solid var(--color-ai);
-      padding: 20px 16px; 
-      border-radius: 3px;
+      padding: 16px; 
+      border-radius: 4px;
       margin-bottom: -2px; 
       position: relative;
       z-index: 2;
@@ -440,18 +443,19 @@
     
     <div class="modern-guide">
       <span class="guide-label">【口上】</span>
-      西洋ガ「無限ノ証明」ヲ追ウ中、<br>
-      江戸ハ<strong>「有限ノ手順」</strong>ヲ極メリ。<br>
-      円理トハ遠回リニ非ズ。<br>
-      万人ガ検算叶フ<strong>「透明ナル術」</strong>ヲ選ビシ、和算ノ矜持ナリ。
+      <span class="bunsetsu">西洋ガ「無限ノ証明」ヲ追ウ中、</span>
+      <span class="bunsetsu">江戸ハ<strong>「有限ノ手順」</strong>ヲ極メリ。</span><br>
+      <span class="bunsetsu">円理トハ遠回リニ非ズ。</span>
+      <span class="bunsetsu">万人ガ検算叶フ<strong>「透明ナル術」</strong>ヲ選ビシ、</span>
+      <span class="bunsetsu">和算ノ矜持ナリ。</span>
     </div>
 
     <!-- 小史ブロック -->
     <div class="modern-guide" style="margin-top:-10px; border-left-color: var(--color-yamabuki);">
       <span class="guide-label" style="color:var(--color-yamabuki);">【小史】</span>
-      <strong>関孝和</strong>——独学ニテ数理ノ深淵ヘ至リシ江戸ノ巨人。<br>
-      彼ガ編ミシ<strong>「円理」</strong>コソ、無限ヲ用イズ、多角形ニテ円ヲ挟ミ撃ツ有限ノ奥義ナリ。<br>
-      本機ハ、ソノ思考ヲADIC台帳ヘ刻ミ、現代OSトシテ再実装セシモノ也。
+      <span class="bunsetsu"><strong>関孝和</strong>——</span><span class="bunsetsu">独学ニテ数理ノ深淵ヘ至リシ江戸ノ巨人。</span><br>
+      <span class="bunsetsu">彼ガ編ミシ<strong>「円理」</strong>コソ、</span><span class="bunsetsu">無限ヲ用イズ、</span><span class="bunsetsu">多角形ニテ円ヲ挟ミ撃ツ有限ノ奥義ナリ。</span><br>
+      <span class="bunsetsu">本機ハ、ソノ思考ヲADIC台帳ヘ刻ミ、</span><span class="bunsetsu">現代OSトシテ再実装セシモノ也。</span>
     </div>
   </section>
 
@@ -461,9 +465,9 @@
     
     <div class="modern-guide" style="border-left-color: var(--color-shu); margin-bottom:12px; font-size:0.85rem;">
       <span class="guide-label" style="color:var(--color-shu);">【体験】</span>
-      盤ヲ操ルハ<strong>「手順」</strong>ノ追体験ナリ。<br>
-      真理ハ天ヨリ降ラズ。<br>
-      多角形ヲ重ネル<strong>「一手」</strong>ニノミ宿ル。
+      <span class="bunsetsu">盤ヲ操ルハ<strong>「手順」</strong>ノ追体験ナリ。</span><br>
+      <span class="bunsetsu">真理ハ天ヨリ降ラズ。</span>
+      <span class="bunsetsu">多角形ヲ重ネル<strong>「一手」</strong>ニノミ宿ル。</span>
     </div>
 
     <div class="kanji-display">
@@ -538,10 +542,10 @@
         </div>
         <div class="safety-text">
           <div style="margin-bottom:10px;">
-            難問ヲ解キ、神社ヘ奉納セシ<strong>「算額（サンガク）」</strong>。<br>
-            其レハ自慢ニアラズ。「何人モ検算セヨ」トノ、<strong>手順（ソースコード）ノ公開</strong>ナリ。<br>
-            ADIC（デジタル台帳）モ亦タ、現代ノ算額ナリ。<br>
-            秘匿ヲ排シ、手順ヲ晒スコトコソ、最強ノ証明トナル。
+            <span class="bunsetsu">難問ヲ解キ、神社ヘ奉納セシ<strong>「算額（サンガク）」</strong>。</span><br>
+            <span class="bunsetsu">其レハ自慢ニアラズ。「何人モ検算セヨ」トノ、<strong>手順（ソースコード）ノ公開</strong>ナリ。</span><br>
+            <span class="bunsetsu">ADIC（デジタル台帳）モ亦タ、現代ノ算額ナリ。</span>
+            <span class="bunsetsu">秘匿ヲ排シ、手順ヲ晒スコトコソ、最強ノ証明トナル。</span>
           </div>
           
           <div class="comparison-box">
@@ -561,13 +565,13 @@
 
           <!-- 捏造防止宣言 -->
           <div class="anti-fake-notice">
-            【布告】履歴ヲ順ニ追エバ、AIガ数字ヲ捏造（ハルシネーション）セヌ事、何人モ検分叶ウ也。
+            <span class="bunsetsu">【布告】履歴ヲ順ニ追エバ、</span><span class="bunsetsu">AIガ数字ヲ捏造（ハルシネーション）セヌ事、</span><span class="bunsetsu">何人モ検分叶フ也。</span>
           </div>
           
           <!-- 証明書宣言 -->
           <div class="proof-statement">
-            【証】各行ハ「多角形ニヨル挟ミ込ミ」ヲ記セシ有限ログナリ。<br>
-            此ノ列ガ有限ナル限リ、π ニ関スル此ノ範囲ハ、何人モ再検分ニテ真偽ヲ正セル証明書トナル。
+            <span class="bunsetsu">【証】各行ハ「多角形ニヨル挟ミ込ミ」ヲ記セシ有限ログナリ。</span><br>
+            <span class="bunsetsu">此ノ列ガ有限ナル限リ、</span><span class="bunsetsu">π ニ関スル此ノ範囲ハ、</span><span class="bunsetsu">何人モ再検分ニテ真偽ヲ正セル証明書トナル。</span>
           </div>
         </div>
       </div>
@@ -590,10 +594,10 @@
   </section>
 
   <div class="footer">
-    証明ヨリモ手順ヲ。理論ヨリモ実装ヲ。<br>
-    カツテ和算家達ガ愛シタ<strong>「有限ノ美学」</strong>ハ、<br>
-    デジタル社会ノ不透明サヲ晴ラス<strong>「信頼ノ礎（イシズエ）」</strong>ト成ラン。<br>
-    此レゾ、日本人ガ誇ルベキ算法ノ原風景ナリ。
+    <span class="bunsetsu">証明ヨリモ手順ヲ。</span><span class="bunsetsu">理論ヨリモ実装ヲ。</span><br>
+    <span class="bunsetsu">カツテ和算家達ガ愛シタ<strong>「有限ノ美学」</strong>ハ、</span><br>
+    <span class="bunsetsu">デジタル社会ノ不透明サヲ晴ラス<strong>「信頼ノ礎（イシズエ）」</strong>ト成ラン。</span><br>
+    <span class="bunsetsu">此レゾ、日本人ガ誇ルベキ算法ノ原風景ナリ。</span>
   </div>
 
 </div>
