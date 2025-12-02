@@ -44,12 +44,11 @@
       justify-content: center;
       align-items: flex-start; 
       line-height: 1.75; 
-      /* スマホでの窮屈さを排除しつつ、余白を持たせる */
       padding: 10px; 
     }
 
     /* -------------------------------------------
-       レイアウト：モバイルファースト・レスポンシブ
+       レイアウト：モバイルファースト
     ------------------------------------------- */
     .app-container {
       width: 100%;
@@ -65,7 +64,6 @@
       gap: 36px;
     }
     
-    /* 上下の飾り線（染め抜き風） */
     .app-container::before, .app-container::after {
       content: ""; position: absolute; left: 0; right: 0; height: 4px; background: var(--color-ai);
     }
@@ -74,13 +72,13 @@
 
     @media (min-width: 768px) {
       body { padding: 30px; }
-      .app-container { padding: 48px; gap: 48px; box-shadow: 0 8px 32px rgba(0,0,0,0.08); }
+      .app-container { padding: 48px; gap: 48px; }
     }
 
     section { width: 100%; }
 
     /* -------------------------------------------
-       デザインパーツ：江戸のタイポグラフィ
+       デザインパーツ
     ------------------------------------------- */
     .header-row {
       border-bottom: 2px solid var(--color-border);
@@ -110,17 +108,17 @@
       margin-bottom: 2px;
     }
 
-    /* ガイド（引札・瓦版風） */
+    /* ガイド（引札風 - 漢文調に調整） */
     .modern-guide {
       font-family: var(--font-serif);
-      font-size: 0.9rem; 
+      font-size: 0.95rem; /* 読みやすく */
       color: var(--color-sumi);
       background: rgba(255, 255, 255, 0.7);
       border: 1px solid var(--color-border);
-      border-left: 3px solid var(--color-ai);
-      padding: 16px 18px;
+      border-left: 4px solid var(--color-ai);
+      padding: 18px 20px;
       margin-bottom: 24px;
-      line-height: 1.9;
+      line-height: 2.0; /* ゆったりと */
       box-shadow: 2px 2px 6px rgba(0,0,0,0.03);
       border-radius: 2px;
     }
@@ -130,11 +128,11 @@
       background: linear-gradient(transparent 70%, rgba(217, 166, 46, 0.25) 70%);
     }
     .guide-label {
-      font-size: 0.75rem; color: var(--color-shu); font-weight: 700; display: block; margin-bottom: 6px;
+      font-size: 0.75rem; color: var(--color-shu); font-weight: 700; display: block; margin-bottom: 8px;
     }
 
     .section-label {
-      font-size: 1.05rem; color: var(--color-ai); font-weight: 700;
+      font-size: 1.1rem; color: var(--color-ai); font-weight: 700;
       border-bottom: 1px dashed var(--color-border);
       padding-bottom: 6px; margin-bottom: 20px; display: block;
     }
@@ -152,7 +150,7 @@
       .kanji-display { font-size: 3rem; margin: 32px 0; }
     }
     
-    /* スライダー（指先操作の最適化） */
+    /* スライダー */
     .soroban-slider {
       width: 100%; margin: 12px 0 28px 0;
       -webkit-appearance: none; background: transparent; height: 48px;
@@ -172,7 +170,7 @@
       transform: scale(1.15); background: var(--color-shu);
     }
 
-    /* ボタン（焼印・判子風） */
+    /* ボタン */
     .hanko-btn {
       display: block; width: 100%; padding: 16px;
       background: #fff; border: 2px solid var(--color-shu);
@@ -202,7 +200,7 @@
     }
     .hanko-btn.link-btn:hover { background: var(--color-ai); color: #fff; }
 
-    /* Fuda (数値表示) - スマホ安全対策 */
+    /* Fuda (数値表示) */
     .fuda-grid {
       display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
     }
@@ -238,9 +236,9 @@
     .gap-note { font-size: 0.65rem; color: var(--color-usuzumi); font-weight: normal; margin-left: 0; display: block; margin-top: 2px; }
     @media (min-width: 480px) { .gap-note { margin-left: 8px; display: inline; margin-top: 0; } }
 
-    /* 不等式バー（Flexbox） */
+    /* 不等式バー */
     .inequality-bar {
-      margin: 20px 0 8px 0;
+      margin: 16px 0 4px 0;
       background: rgba(22, 36, 71, 0.04);
       padding: 12px;
       border-radius: 3px;
@@ -294,7 +292,7 @@
     /* 大福帳エリア */
     .daifukucho-wrapper { margin-top: 48px; }
     
-    /* セキュリティ・口上（高札） */
+    /* セキュリティ・口上 */
     .safety-manifesto {
       background: #fff;
       border: 2px solid var(--color-ai);
@@ -320,7 +318,7 @@
     }
     .safety-text {
       font-family: var(--font-serif);
-      font-size: 0.9rem; line-height: 1.9; color: var(--color-sumi);
+      font-size: 0.9rem; line-height: 2.0; color: var(--color-sumi);
     }
     
     /* 対比表 */
@@ -402,6 +400,7 @@
       word-break: break-all;
     }
 
+    /* Footer Optimized for Mobile */
     .footer {
       margin-top: 40px; padding: 24px 16px;
       background: var(--color-ai); color: #fff;
@@ -437,18 +436,18 @@
     
     <div class="modern-guide">
       <span class="guide-label">【口上】</span>
-      西洋が「無限の証明」を追う中、<br>
-      江戸は<strong>「有限の手順」</strong>を磨けり。<br>
-      円理とは遠回りならず。<br>
-      万人が検算かなう<strong>「透明なる術」</strong>を選びし、和算の矜持なり。
+      西洋ガ「無限ノ証明」ヲ追ウ中、<br>
+      江戸ハ<strong>「有限ノ手順」</strong>ヲ極メリ。<br>
+      円理トハ遠回リニ非ズ。<br>
+      万人ガ検算叶フ<strong>「透明ナル術」</strong>ヲ選ビシ、和算ノ矜持ナリ。
     </div>
 
     <!-- 小史ブロック -->
     <div class="modern-guide" style="margin-top:-10px; border-left-color: var(--color-yamabuki);">
       <span class="guide-label" style="color:var(--color-yamabuki);">【小史】</span>
-      <strong>関孝和</strong>——独学にて数理の深淵へ至りし江戸の巨人なり。<br>
-      彼が編みし<strong>「円理」</strong>こそ、無限を用いず多角形にて円を挟み撃つ、有限の奥義なり。<br>
-      本機は、その思考をADIC台帳へ刻み、現代OSとして再実装せし試みなり。
+      <strong>関孝和</strong>——独学ニテ数理ノ深淵ヘ至リシ江戸ノ巨人。<br>
+      彼ガ編ミシ<strong>「円理」</strong>コソ、無限ヲ用イズ、多角形ニテ円ヲ挟ミ撃ツ有限ノ奥義ナリ。<br>
+      本機ハ、ソノ思考ヲADIC台帳ヘ刻ミ、現代OSトシテ再実装セシモノ也。
     </div>
   </section>
 
@@ -458,9 +457,9 @@
     
     <div class="modern-guide" style="border-left-color: var(--color-shu); margin-bottom:12px; font-size:0.85rem;">
       <span class="guide-label" style="color:var(--color-shu);">【体験】</span>
-      スライダー操作は<strong>「手順」</strong>の追体験なり。<br>
-      真理は空から降らず。<br>
-      多角形を重ねる<strong>「一手」</strong>にのみ宿る。
+      盤ヲ操ルハ<strong>「手順」</strong>ノ追体験ナリ。<br>
+      真理ハ天ヨリ降ラズ。<br>
+      多角形ヲ重ネル<strong>「一手」</strong>ニノミ宿ル。
     </div>
 
     <div class="kanji-display">
@@ -474,6 +473,32 @@
     <button class="hanko-btn" id="btnDemo">
       自動演舞（手順の再現）
     </button>
+
+    <!-- 見立絵図 -->
+    <div class="viz-box">
+      <svg viewBox="0 0 400 400" id="vizSvg">
+        <!-- 円 (面積 π) -->
+        <circle cx="200" cy="200" r="140" fill="rgba(22, 36, 71, 0.03)" stroke="#ccc" stroke-dasharray="4 4" />
+        
+        <!-- 外接多角形 -->
+        <polygon id="polyOuter" points="" style="fill:rgba(217,166,46,0.15); stroke:#d9a62e; stroke-width:2;" />
+        
+        <!-- 内接多角形 -->
+        <polygon id="polyInner" points="" style="fill:rgba(93,107,47,0.15); stroke:#5d6b2f; stroke-width:2;" />
+        
+        <!-- 中心点 -->
+        <circle cx="200" cy="200" r="3" fill="#2b2b2b" />
+        <text x="390" y="380" text-anchor="end" font-size="12" fill="#aaa" style="writing-mode: tb;">円理図解</text>
+      </svg>
+    </div>
+
+    <!-- 不等式バー -->
+    <div class="inequality-bar">
+      <span class="ine-green">【緑】内接（小）</span>
+      <span class="ine-center">≦ 円ノ理 ≦</span>
+      <span class="ine-gold">【金】外接（大）</span>
+    </div>
+
   </section>
 
   <!-- 第三幕：結果と証明 -->
@@ -495,33 +520,9 @@
       </div>
     </div>
 
-    <!-- 不等式バー -->
-    <div class="inequality-bar">
-      <span class="ine-green">【緑】内接（小）</span>
-      <span class="ine-center">≦ 円ノ理 ≦</span>
-      <span class="ine-gold">【金】外接（大）</span>
-    </div>
-
     <!-- 参考値表示 -->
     <div class="reference-metrics">
       参考：現代ノ参照値(π)トノ差 ≒ <span id="valDiff">0.00...</span>
-    </div>
-
-    <div class="viz-box">
-      <svg viewBox="0 0 400 400" id="vizSvg">
-        <!-- 円 (面積 π) -->
-        <circle cx="200" cy="200" r="140" fill="rgba(22, 36, 71, 0.03)" stroke="#ccc" stroke-dasharray="4 4" />
-        
-        <!-- 外接多角形 -->
-        <polygon id="polyOuter" points="" style="fill:rgba(217,166,46,0.15); stroke:#d9a62e; stroke-width:2;" />
-        
-        <!-- 内接多角形 -->
-        <polygon id="polyInner" points="" style="fill:rgba(93,107,47,0.15); stroke:#5d6b2f; stroke-width:2;" />
-        
-        <!-- 中心点 -->
-        <circle cx="200" cy="200" r="3" fill="#2b2b2b" />
-        <text x="390" y="380" text-anchor="end" font-size="12" fill="#aaa" style="writing-mode: tb;">円理図解</text>
-      </svg>
     </div>
 
     <!-- ここが心臓部 -->
@@ -533,30 +534,30 @@
         </div>
         <div class="safety-text">
           <div style="margin-bottom:10px;">
-            難問を解き、神社へ奉納せし<strong>「算額（さんがく）」</strong>。<br>
-            其れは自慢にあらず。「何人も検算せよ」との、<strong>手順（ソースコード）の公開</strong>なり。<br>
-            ADIC（デジタル台帳）もまた現代の算額なり。<br>
-            秘匿を排し、手順を晒すことこそ、最強の証明となる。
+            難問ヲ解キ、神社ヘ奉納セシ<strong>「算額（サンガク）」</strong>。<br>
+            其レハ自慢ニアラズ。「何人モ検算セヨ」トノ、<strong>手順（ソースコード）ノ公開</strong>ナリ。<br>
+            ADIC（デジタル台帳）モ亦タ、現代ノ算額ナリ。<br>
+            秘匿ヲ排シ、手順ヲ晒スコトコソ、最強ノ証明トナル。
           </div>
           
           <div class="comparison-box">
             <div class="compare-item compare-ai">
-              <span class="compare-label">現代のAI</span>
-              「答えは此れ」と示すのみ。<br>
-              中身は見えず、検証不可。<br>
+              <span class="compare-label">現代ノ人工知能</span>
+              「答エハ此レ」ト示スノミ。<br>
+              中身ハ見エズ、検証不可。<br>
               <strong>⇒ 秘伝・暗箱</strong>
             </div>
             <div class="compare-item compare-adic">
               <span class="compare-label">和算・ADIC</span>
-              「此れを行えば、必ずこうなる」<br>
-              誰もが再現できる手順。<br>
+              「此レヲ行エバ、必ズ斯ク成ル」<br>
+              誰モガ再現叶フ手順。<br>
               <strong>⇒ 算額・公開知</strong>
             </div>
           </div>
 
           <!-- 捏造防止宣言 -->
           <div class="anti-fake-notice">
-            【布告】履歴ヲ順ニ追エバ、AIノ捏造（ハルシネーション）皆無ナル事、何人モ検分叶ウ也。
+            【布告】履歴ヲ順ニ追エバ、AIガ数字ヲ捏造（ハルシネーション）セヌ事、何人モ検分叶フ也。
           </div>
           
           <!-- 証明書宣言 -->
@@ -571,12 +572,12 @@
       <div class="daifukucho" id="ledger"></div>
       
       <div style="font-size:0.7rem; color:var(--color-usuzumi); margin-top:8px; text-align:right;">
-        ※全行、算額の如く公開されし手順なり。
+        ※全行、算額ノ如ク公開サレシ手順ナリ。
       </div>
     </div>
   </section>
 
-  <!-- 関連リンク -->
+  <!-- 関連リンク：和算2.0の系譜 -->
   <section class="related-link-area">
     <div class="related-title">【別誂】 和算二・〇ノ系譜</div>
     <a href="https://ghostdrifttheory.github.io/prime-counter-demo/" target="_blank" class="hanko-btn link-btn">
@@ -585,10 +586,10 @@
   </section>
 
   <div class="footer">
-    証明よりも手順を。理論よりも実装を。<br>
-    かつて和算家たちが愛した<strong>「有限の美学」</strong>は、<br>
-    デジタル社会の不透明さを晴らす<strong>「信頼の礎」</strong>とならん。<br>
-    これぞ、日本人が誇るべきアルゴリズムの原風景なり。
+    証明ヨリモ手順ヲ。理論ヨリモ実装ヲ。<br>
+    カツテ和算家達ガ愛シタ<strong>「有限ノ美学」</strong>ハ、<br>
+    デジタル社会ノ不透明サヲ晴ラス<strong>「信頼ノ礎（イシズエ）」</strong>ト成ラン。<br>
+    此レゾ、和人ガ誇ルベキ算法ノ原風景ナリ。
   </div>
 
 </div>
